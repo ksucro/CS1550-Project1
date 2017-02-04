@@ -83,7 +83,7 @@ char get_key() {
     while (select(FD_SETSIZE(), &set, NULL, NULL, &tim)) {
         read(0, &ret, 1);
     }
-    printf(ret);
+    printf("%c", ret);
     
     return ret;
 }
