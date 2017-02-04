@@ -1,3 +1,8 @@
+/* 
+ * Graphics Library header file
+ * (c) Mohammad H. Mofrad, 2017
+ */
+
 #ifndef _LIBRARY_INCLUDED_H
 #define _LIBRARY_INCLUDED_H
 
@@ -7,6 +12,10 @@
 #include <linux/fb.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <time.h>
+#include <sys/select.h>
+#include <sys/types>
+#include <unistd.h>
 
 typedef unsigned short color_t;    // |15 11|10  5|4  0|
                                    // |red  |green|blue|
@@ -16,9 +25,14 @@ typedef unsigned short color_t;    // |15 11|10  5|4  0|
 #define GMASK(c) (c & 0x07E0) // Green mask
 #define RMASK(c) (c & 0xF800) // Red mask
 
-void clear_screen();
 void init_graphics();
 void exit_graphics();
-void draw_line(color_t c);
+void clear_screen();
+char get_key();
+void sleep_ms(long ms);
+
+void draw_pixel(int x, int y, color_t color);
+void draw_rect(int x1, int y1, int width, int height, color_t c);
+void draw_text(int x, int y, const char *text, color_t c);
 
 #endif
