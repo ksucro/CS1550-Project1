@@ -24,7 +24,7 @@ void init_graphics() {
     fd = open("/dev/fb0", O_RDWR);
     
     if (fd == -1) {
-        perro("Error opening /dev/fb0");
+        perror("Error opening /dev/fb0");
         exit(1);
     }
     
