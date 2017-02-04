@@ -72,7 +72,7 @@ void exit_graphics() {
 }
 
 void clear_screen() {
-    write(file_add, "\033[2J", 4);  /* This will do the trick for fid1*/
+    write(1, "\033[2J", 8);
 }
 
 char get_key() {
