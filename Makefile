@@ -3,7 +3,7 @@
 # (c) Mohammad H. Mofrad, 2017
 
 LIB = library
-MAIN = square
+MAIN = driver
 GCC = gcc
 
 install:
