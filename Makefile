@@ -1,6 +1,6 @@
 #!/usr/bin/make
 # Graphics Library Makefile
-# (c) Mohammad H. Mofrad, 2017
+# Kyle Sucro kes172
 
 LIB = library
 MAIN = driver

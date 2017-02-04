@@ -1,7 +1,7 @@
 /* 
- * Graphics Library header file
- * (c) Mohammad H. Mofrad, 2017
- */
+Kyle Sucro
+kes172
+*/
 
 #ifndef _LIBRARY_INCLUDED_H
 #define _LIBRARY_INCLUDED_H

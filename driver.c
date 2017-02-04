@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 	init_graphics();
 	clear_screen();
 
-	sleep_ms(100);
+	sleep_ms(3000);
 	
 	clear_screen();
 	exit_graphics();

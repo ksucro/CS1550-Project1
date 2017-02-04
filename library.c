@@ -1,11 +1,7 @@
 /*
- * CS 1550: Graphics library skeleton code for Qemu VM
- * WARNING: This code is the minimal implementation of the project 1.
- *          It is not intended to serve as a reference implementation.
- *          Following project guidelines, a complete implementation
- *          for this project will contain ~300 lines or more.
- * (c) Mohammad H. Mofrad, 2017
- */
+Kyle Sucro
+kes172
+*/
 
 #include "library.h"
 
@@ -16,29 +12,7 @@ color_t *address;
 
 void init_graphics()
 {
-    /* Open fb file descriptor */
-    fid = open("/dev/fb0", O_RDWR);
-    if(fid == -1)
-    {
-        perror("Error opening /dev/fb0");
-        exit(1);
-    }
-
-    /* 
-     * Horizontal resolution (1 row)
-     * Do not hardcode size in your implementation
-     * We skip some ioctls here
-     * Then add the memory mapping using
-     * "address" which is the pointer to the shared memory space with frame buffer (fb)
-     */
-    size = 640 * 1; 
-    address = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, fid, 0);
-    if(address == (void *) -1)
-    {
-        perror("Error mapping memory");
-        exit(1);
-    }
-    /* Skipping ioctls for teminal settings for fid1 */
+    struct 
 }
 
 void exit_graphics() 
@@ -83,7 +57,7 @@ char get_key() {
     while (select(FD_SETSIZE, &set, NULL, NULL, &tim)) {
         read(0, &ret, 1);
     }
-    printf("%c", ret);
+    //printf("%c", ret);
     
     return ret;
 }
