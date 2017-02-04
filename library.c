@@ -4,44 +4,75 @@ kes172
 */
 
 #include "library.h"
+#include "iso_font.h"
 
-int fid;
-int fid1 = 1;
 size_t size;
 color_t *address;
+int fd;
+void* file_add;
+int yres_virtual;
+int xres_virtual;
+int size;
 
-void init_graphics()
-{
-    struct 
+struct termios termios;
+
+typedef unsigned short color_t;
+
+void init_graphics() {
+    struct fb_var_screeninfo vinfo;
+    struct fb_fix_screeninfo finfo;
+    
+    fd = open("/dev/fb0", O_RDWR);
+    
+    if (fd == -1) {
+        perro("Error opening /dev/fb0");
+        exit(1);
+    }
+    
+    ioctl(fd, FBIOGET_VSCREENINFO, &vinfo);
+    ioctl(fd, FBIOGET_FSCREENINFO, &finfo);
+    
+    yres_virtual = vinfo.yres_virtual;
+    xres_virtual = vinfo.xres_virutal;
+    
+    size = fix_info.line_length;
+    
+    file_add = mmap(NULL, xres_virtual * size, PROT_WRITE, MAP_SHARED, fd, 0);
+    
+    if (fileadd == (void*) -1) {
+        perror("Couldn't mmap");
+        exit_graphics();
+        exit(1);
+    }
+    
+    ioctl(0, TCGETS, &termios);
+    termios.c_lflag &= ~(ECHO | ICANON);
+    ioctl(0, TCGETS, &termios);
+    
+    clear_screen();
 }
 
-void exit_graphics() 
-{
-    /* 
-     * Skipping ioctl for reseting the terminal setting for fid1
-     * Remove the memory mapping
-     * Finally, close fb file desriptor
-     */
+void exit_graphics() {
+    termios.c_lflag |= (ECHO | ICANON);
+    ioctl(0, TCGETS, &termios);
 
-    if(munmap(address, size) == -1)
-    {
+    if(munmap(address, size) == -1) {
         perror("Error unmapping memory");
         exit(1);
     }
 
-    if(!close(fid))
-    {
+    clear_screen();
+
+    if(!close(fd)) {
         exit(0);
     }
-    else
-    {
+    else {
         perror("Error closing /dev/fb0");
         exit(1);
     }
 }
 
-void clear_screen() 
-{
+void clear_screen() {
     write(fid1, "\033[2J", 4);  /* This will do the trick for fid1*/
 }
 
@@ -62,8 +93,7 @@ char get_key() {
     return ret;
 }
 
-void sleep_ms(long ms)
-{
+void sleep_ms(long ms) {
     struct timespec tim;
     tim.tv_sec = ms / 1000;
     tim.tv_nsec = (ms % 1000) * 1000000;
@@ -72,28 +102,20 @@ void sleep_ms(long ms)
 }
 
 void draw_pixel(int x, int y, color_t color) {
-    
+    if (x < 0 || x >= x_virtual_len || y < 0 || y >= y_virtual_len) {
+        return;
+    }
+
+    unsigned long vertical = (size/2) * y;
+    unsigned long horizontal = x;
+    unsigned short *ptr = ( fb_ptr + vertical + horizontal);
+    *ptr = color;
 }
 
-void draw_rect(int x1, int y1, int width, int height, color_t c) {
+void draw_rect(int x, int y, int width, int height, color_t c) {
     
 }
 
 void draw_text(int x, int y, const char *text, color_t c) {
     
 }
-
-/*
-void draw_line(color_t c)
-{
-    //Print a single line
-    color_t off_p = 0;
-    for(off_p =0; off_p < size; off_p++)
-    {
-        *(address + off_p) = RMASK(c) | GMASK(c) | BMASK(c);
-        
-//          printf("Address(0x%08x), Color(0x%04x) B(0x%04x), G(0x%04x), R(0x%04x) \n",
-//                (address + off_p), *(address + off_p), BMASK(c), GMASK(c), RMASK(c));
-    }
-}
-*/
