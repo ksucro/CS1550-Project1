@@ -55,7 +55,7 @@ void exit_graphics() {
     termios.c_lflag |= (ECHO | ICANON);
     ioctl(0, TCGETS, &termios);
 
-    if(munmap(address, size) == -1) {
+    if(munmap(file_add, yres_virtual * length) == -1) {
         perror("Error unmapping memory");
         exit(1);
     }
