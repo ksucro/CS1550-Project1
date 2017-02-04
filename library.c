@@ -52,13 +52,15 @@ void init_graphics() {
 }
 
 void exit_graphics() {
+    ioctl(0, TCGETS, &termios);
     termios.c_lflag |= (ECHO | ICANON);
     ioctl(0, TCGETS, &termios);
 
-    if(munmap(file_add, yres_virtual * length) == -1) {
-        perror("Error unmapping memory");
-        exit(1);
-    }
+    munmap(file_add, yres_virtual * length);
+//    if(munmap(file_add, yres_virtual * length) == -1) {
+//        perror("Error unmapping memory");
+//        exit(1);
+//    }
 
     clear_screen();
 
