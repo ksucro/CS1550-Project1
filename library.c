@@ -36,9 +36,9 @@ void init_graphics() {
     //x
     length = finfo.line_length;
     
-    file_add = mmap(NULL, xres_virtual * length, PROT_WRITE, MAP_SHARED, fd, 0);
+    file_add = mmap(NULL, yres_virtual * length, PROT_WRITE, MAP_SHARED, fd, 0);
     
-    if (fileadd == (void*) -1) {
+    if (file_add == (void*) -1) {
         perror("Couldn't mmap");
         exit_graphics();
         exit(1);
@@ -72,7 +72,7 @@ void exit_graphics() {
 }
 
 void clear_screen() {
-    write(fid1, "\033[2J", 4);  /* This will do the trick for fid1*/
+    write(file_add, "\033[2J", 4);  /* This will do the trick for fid1*/
 }
 
 char get_key() {
@@ -101,7 +101,7 @@ void sleep_ms(long ms) {
 }
 
 void draw_pixel(int x, int y, color_t color) {
-    if (x < 0 || x >= xres_virtual || y < 0 || y >= length) {
+    if (x < 0 || x >= yres_virtual || y < 0 || y >= length) {
         perror("Out of screen bounds");
         exit_graphics();
         exit(1);
