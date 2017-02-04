@@ -10,10 +10,11 @@ kes172
 #include <stdio.h>
 #include <linux/fb.h>
 #include <fcntl.h>
-#include <sys/mman.h>
 #include <time.h>
+#include <sys/mman.h>
 #include <sys/select.h>
 #include <sys/ioctl.h>
+#include <termios.h>    
 #include <unistd.h>
 
 typedef unsigned short color_t;    // |15 11|10  5|4  0|

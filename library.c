@@ -10,9 +10,8 @@ size_t size;
 color_t *address;
 int fd;
 void* file_add;
-int yres_virtual;
-int xres_virtual;
-int size;
+unsigned long yres_virtual;
+unsigned long length;
 
 struct termios termios;
 
@@ -32,12 +31,12 @@ void init_graphics() {
     ioctl(fd, FBIOGET_VSCREENINFO, &vinfo);
     ioctl(fd, FBIOGET_FSCREENINFO, &finfo);
     
+    //y
     yres_virtual = vinfo.yres_virtual;
-    xres_virtual = vinfo.xres_virutal;
+    //x
+    length = finfo.line_length;
     
-    size = fix_info.line_length;
-    
-    file_add = mmap(NULL, xres_virtual * size, PROT_WRITE, MAP_SHARED, fd, 0);
+    file_add = mmap(NULL, xres_virtual * length, PROT_WRITE, MAP_SHARED, fd, 0);
     
     if (fileadd == (void*) -1) {
         perror("Couldn't mmap");
@@ -102,13 +101,15 @@ void sleep_ms(long ms) {
 }
 
 void draw_pixel(int x, int y, color_t color) {
-    if (x < 0 || x >= x_virtual_len || y < 0 || y >= y_virtual_len) {
-        return;
+    if (x < 0 || x >= xres_virtual || y < 0 || y >= length) {
+        perror("Out of screen bounds");
+        exit_graphics();
+        exit(1);
     }
 
-    unsigned long vertical = (size/2) * y;
-    unsigned long horizontal = x;
-    unsigned short *ptr = ( fb_ptr + vertical + horizontal);
+    unsigned long vert = (length/2) * y;
+    unsigned long horz = x;
+    unsigned short *ptr = (file_add + vert + horz);
     *ptr = color;
 }
 
