@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 	init_graphics();
 	clear_screen();
 
-	draw_pixel(100, 100, RGB(0, 0, 0));
+	draw_pixel(100, 100, RGB(255, 255, 255));
 	sleep_ms(3000);
 	
 	clear_screen();
