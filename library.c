@@ -116,13 +116,13 @@ void draw_rect(int x, int y, int width, int height, color_t c) {
     int b = y;
     
     for (a = x; a <= x + width; a++) {
-        draw_pixel(a, b, color);
-        draw_pixel(a, b + height, color);
+        draw_pixel(a, b, c);
+        draw_pixel(a, b + height, c);
     }
     
     for (b = y; b <= y + height; b++) {
-        draw_pixel(a, b, color);
-        draw_pixel(a, b + width, color);
+        draw_pixel(a, b, c);
+        draw_pixel(a, b + width, c);
     }
 }
 
