@@ -120,12 +120,34 @@ void draw_rect(int x, int y, int width, int height, color_t c) {
         draw_pixel(a, b + height, c);
     }
     
+    a = x;
     for (b = y; b <= y + height; b++) {
         draw_pixel(a, b, c);
-        draw_pixel(a, b + width, c);
+        draw_pixel(a + width, b, c);
     }
 }
 
 void draw_text(int x, int y, const char *text, color_t c) {
-    
+    const char *tmp;
+    int offset = 0;
+    for (tmp = text; *tmp != '\0'; tmp++)
+    {
+        draw_char(x, y+offset, c, *tmp);
+        offset += 8;
+    }
+}
+
+void draw_char(int x, int y, color_t c, int ascii) {
+    int i, j, b;
+    for (i = 0; i < 16; i++)
+    {
+        for (j = 0; j < 16; j++)
+        {
+            b =  ((iso_font[ascii*16+i] & 1 << j) >> j);
+            if (b == 1)
+            {
+                draw_pixel(y+j, x+i, c);
+            }
+        }
+    }
 }
