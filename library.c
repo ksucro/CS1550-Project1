@@ -57,10 +57,6 @@ void exit_graphics() {
     ioctl(0, TCGETS, &termios);
 
     munmap(file_add, yres_virtual * length);
-//    if(munmap(file_add, yres_virtual * length) == -1) {
-//        perror("Error unmapping memory");
-//        exit(1);
-//    }
 
     clear_screen();
 
@@ -116,7 +112,18 @@ void draw_pixel(int x, int y, color_t color) {
 }
 
 void draw_rect(int x, int y, int width, int height, color_t c) {
+    int a = x;
+    int b = y;
     
+    for (a = x; a <= x + width; a++) {
+        draw_pixel(a, b, color);
+        draw_pixel(a, b + height, color);
+    }
+    
+    for (b = y; b <= y + height; b++) {
+        draw_pixel(a, b, color);
+        draw_pixel(a, b + width, color);
+    }
 }
 
 void draw_text(int x, int y, const char *text, color_t c) {
