@@ -73,10 +73,10 @@ void clear_screen() {
     write(1, "\033[2J", 8);
 }
 
-char get_key() {
+char getkey() {
     char ret = 0;
     struct timeval tim;
-    tim.tv_sec = 0;
+    tim.tv_sec = 5;
     
     fd_set set;
     FD_ZERO(&set);
