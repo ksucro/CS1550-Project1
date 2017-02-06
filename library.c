@@ -77,14 +77,19 @@ char getkey() {
     char ret = 0;
     struct timeval tim;
     tim.tv_sec = 5;
+    tim.tv_usec = 0;
     
     fd_set set;
     FD_ZERO(&set);
     FD_SET(0, &set);
     
-    while (select(STDIN_FILENO+1, &set, NULL, NULL, &tim)) {
-        read(0, &ret, 1);
+    int selecter = select(STDIN_FILENO+1, &set, NULL, NULL, &tim);
+    if (selecter > 0) {
+        read (0, &ret, sizeof(ret));
     }
+    //while (select(STDIN_FILENO+1, &set, NULL, NULL, &tim)) {
+    //    read(0, &ret, 1);
+    //}
     //printf("%c", ret);
     
     return ret;
