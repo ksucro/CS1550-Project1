@@ -82,7 +82,7 @@ char getkey() {
     FD_ZERO(&set);
     FD_SET(0, &set);
     
-    while (select(FD_SETSIZE, &set, NULL, NULL, &tim)) {
+    while (select(STDIN_FILENO+1, &set, NULL, NULL, &tim)) {
         read(0, &ret, 1);
     }
     //printf("%c", ret);
