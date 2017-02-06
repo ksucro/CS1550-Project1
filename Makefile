@@ -3,7 +3,7 @@
 # Kyle Sucro kes172
 
 LIB = library
-MAIN = driver
+MAIN = square
 GCC = gcc
 
 install:
